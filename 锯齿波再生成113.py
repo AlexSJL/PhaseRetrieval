@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 def sawtooth_wave(t, T):
     return 2*np.pi * (t / T - np.floor(0.5 + t / T))
-
+''''''
 # 设置时间范围和采样点数
-t = np.linspace(0, 100, 1000)
+t = np.linspace(0, 100, 50000)
 
 # 创建锯齿波信号
 T = 3  # 锯齿波的周期
@@ -17,7 +17,7 @@ amplitude = 1  # 振幅
 sawtooth_signal = amplitude * np.exp(1j * sawtooth_phase)
 
 # 进行傅里叶变换
-frequency_domain = np.abs(np.fft.fft(sawtooth_signal))
+frequency_domain = np.fft.fft(sawtooth_signal)
 freqs = np.fft.fftfreq(len(t), t[1]-t[0])  # 计算频率轴
 
 
@@ -32,17 +32,19 @@ i=0
 w=freqs
 # 创建频率域信号
 # 创建高斯振幅分布函数
-mu = 1  # 均值
-sigma = 0.01  # 标准差
+mu = 10  # 均值
+sigma = 1  # 标准差
 #A0_w=np.exp(-(w - mu)**2 / (2 * sigma**2))
 '''
 A0_w = np.zeros_like(w)
 index = np.abs(w - 1).argmin()
 A0_w[index] = 1'''
+
 '''A0_w = np.zeros_like(w)
 A0_w[(w > 18) & (w < 22)] = 1
 A0_w[(w > 38) & (w < 42)] = 1
-A0_w[(w > 58) & (w < 62)] = 1'''
+A0_w[(w > 58) & (w < 62)] = 1
+phi0_w =phase_spectrum = np.zeros_like(frequency_domain)'''
 A0_w = amplitude_spectrum = np.abs(frequency_domain)
 phi0_w =phase_spectrum = np.angle(frequency_domain)
 
@@ -168,7 +170,7 @@ for i in range(1, 1000):
   i=i+1
 '''
 # 定义循环次数和误差列表
-num_iterations = 10
+num_iterations = 100
 errors = []
 
 # 执行循环
@@ -202,9 +204,9 @@ A_w=A0_w
 A_t, phi_t = fourier_transform(A_w, phi_w)
 phi_t_unwrapped = np.unwrap(phi_t)
 #时间相位
-#plot_time_domain(A_t,phi_t,i)
+plot_time_domain(A_t,phi_t,i)
 print(At_in)  # 打印输出常数
-np.savetxt('A0_w.txt', phi_t)
+np.savetxt('phi_t.txt', phi_t)
 
 
 
